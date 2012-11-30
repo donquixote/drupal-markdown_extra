@@ -1,0 +1,57 @@
+<?php
+
+/**
+ * @file
+ * Markdown addons
+ *
+ * Extends the markdown syntax output filter.
+ *
+ */
+function markdown_extra_filter_info() {
+    $filters['markdown_extra'] = array(
+        'title' => t('Internal path to alias filter'),
+        'description' => t('Extends the markdown syntax output filter. Converting node/x path to alias and allowing images styles.'),
+        'process callback' => 'markdown_extra_filter_html',
+        'settings callback' => 'markdown_extra_filter_html_settings',
+        'tips callback' => 'markdown_extra_filter_html_tips',
+        'cache' => FALSE,
+    );
+    return $filters;
+}
+
+// Filter callbacks.
+
+function markdown_extra_filter_html($text, $filter, $format) {
+
+	// convert node/x to alias
+    if (preg_match_all('/\((node\/\d+)\)/', $text, $matches)) {
+    	foreach($matches[0] as $k => $v) {
+    		$text = str_replace($matches[0][$k], '('. url($matches[1][$k]) .')' , $text);
+    	}
+    }
+    
+    
+    // extend img syntax
+    // ![Alt text](/path/to/img.jpg){css classes|mediastyle|caption} becomes
+
+/*
+<figure>
+  <img src="/path/including/style/to/img.jpg" alt="Alt text" class="css classes" />
+  <figcaption>A cheeky macaque, Lower Kintaganban River, Borneo. Original by <a href="http://www.flickr.com/photos/rclark/">Richard Clark</a></figcaption>
+</figure>
+*/
+
+	$text = preg_replace('§(<img.*)\/>\{([A-Za-z0-9-_\s]*)\}§', '${1}class="${2}" />', $text);
+
+    
+    return $text;
+}
+
+function markdown_extra_filter_html_settings($format) {
+    
+}
+
+function markdown_extra_filter_html_tips($filter, $format, $long = FALSE) {
+    
+}
+
