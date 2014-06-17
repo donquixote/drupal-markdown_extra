@@ -1,0 +1,4 @@
+<img src="/path/to/image.png" />{.pull-right}
+Some text in between.
+<img src="/louvre/la_joconde.png" />{#la_joconde.pull-left[alt=La Joconde]}
+More text.

@@ -1,0 +1,4 @@
+<img src="/path/to/image.png" class="pull-right"/>
+Some text in between.
+<img src="/louvre/la_joconde.png" id="la_joconde" alt="La Joconde" class="pull-left"/>
+More text.
