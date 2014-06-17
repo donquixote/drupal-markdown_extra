@@ -6,6 +6,7 @@
  *
  * Extends the markdown syntax output filter.
  */
+use Drupal\markdown_extra\Filter\MarkdownExtraAttributesFilter;
 
 /**
  * Implements hook_filter_info()
@@ -15,8 +16,14 @@
 function markdown_extra_filter_info() {
   $filters['markdown_extra'] = array(
     'title' => t('Internal path to alias filter'),
-    'description' => t('Extends the markdown syntax output filter. Converting node/x path to alias and allowing images styles.'),
+    'description' => t('Extends the markdown syntax output filter. Converting node/x path to alias.'),
     'process callback' => 'markdown_extra_filter_html',
+    'cache' => FALSE,
+  );
+  $filters['markdown_extra_attributes'] = array(
+    'title' => t('Markdown attributes filter'),
+    'description' => t('Allows image classes in markdown images.'),
+    'process callback' => '_markdown_extra_filter_attributes',
     'cache' => FALSE,
   );
   return $filters;
@@ -26,33 +33,29 @@ function markdown_extra_filter_info() {
  * Process callback for 'markdown_extra' filter.
  *
  * @param string $text
- * @param array $filter
- * @param array $format
  *
  * @return mixed
  */
-function markdown_extra_filter_html($text, $filter, $format) {
+function markdown_extra_filter_html($text) {
 
   // convert node/x to alias
   if (preg_match_all('/\((node\/\d+)\)/', $text, $matches)) {
-    foreach($matches[0] as $k => $v) {
-      $text = str_replace($matches[0][$k], '('. url($matches[1][$k]) .')' , $text);
+    foreach ($matches[0] as $k => $v) {
+      $text = str_replace($matches[0][$k], '(' . url($matches[1][$k]) . ')', $text);
     }
   }
 
-
-  // extend img syntax
-  // ![Alt text](/path/to/img.jpg){css classes|mediastyle|caption} becomes
-
-  /*
-  <figure>
-    <img src="/path/including/style/to/img.jpg" alt="Alt text" class="css classes" />
-    <figcaption>A cheeky macaque, Lower Kintaganban River, Borneo. Original by <a href="http://www.flickr.com/photos/rclark/">Richard Clark</a></figcaption>
-  </figure>
-  */
-
-  $text = preg_replace('§(<img.*)\/>\{([A-Za-z0-9-_\s]*)\}§', '${1}class="${2}" />', $text);
-
-
   return $text;
+}
+
+/**
+ * Process callback for 'markdown_extra_attributes' filter.
+ *
+ * @param string $text
+ *
+ * @return string
+ */
+function _markdown_extra_filter_attributes($text) {
+  $filter = new MarkdownExtraAttributesFilter();
+  return $filter->filter($text);
 }
