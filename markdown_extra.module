@@ -17,8 +17,6 @@ function markdown_extra_filter_info() {
     'title' => t('Internal path to alias filter'),
     'description' => t('Extends the markdown syntax output filter. Converting node/x path to alias and allowing images styles.'),
     'process callback' => 'markdown_extra_filter_html',
-    'settings callback' => 'markdown_extra_filter_html_settings',
-    'tips callback' => 'markdown_extra_filter_html_tips',
     'cache' => FALSE,
   );
   return $filters;
@@ -57,12 +55,4 @@ function markdown_extra_filter_html($text, $filter, $format) {
 
 
   return $text;
-}
-
-function markdown_extra_filter_html_settings($format) {
-
-}
-
-function markdown_extra_filter_html_tips($filter, $format, $long = FALSE) {
-
 }
