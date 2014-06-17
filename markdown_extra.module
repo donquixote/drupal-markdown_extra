@@ -5,7 +5,12 @@
  * Markdown addons
  *
  * Extends the markdown syntax output filter.
+ */
+
+/**
+ * Implements hook_filter_info()
  *
+ * @return array
  */
 function markdown_extra_filter_info() {
   $filters['markdown_extra'] = array(
@@ -19,8 +24,15 @@ function markdown_extra_filter_info() {
   return $filters;
 }
 
-// Filter callbacks.
-
+/**
+ * Process callback for 'markdown_extra' filter.
+ *
+ * @param string $text
+ * @param array $filter
+ * @param array $format
+ *
+ * @return mixed
+ */
 function markdown_extra_filter_html($text, $filter, $format) {
 
   // convert node/x to alias
