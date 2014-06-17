@@ -6,7 +6,7 @@ namespace Drupal\markdown_extra\Tests;
 
 use Drupal\markdown_extra\Filter\MarkdownExtraAttributesFilter;
 
-class MarkdownExtraAttributesTestCase extends \PHPUnit_Framework_TestCase {
+class MarkdownExtraAttributesTest extends \PHPUnit_Framework_TestCase {
 
   function providerMarkdownAttributes() {
     $dir = dirname(__DIR__) . '/fixtures/MarkdownExtraAttributes';
