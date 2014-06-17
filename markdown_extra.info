@@ -6,7 +6,7 @@ package = "Input filters"
 
 dependencies[] = filter
 dependencies[] = markdown
-dependencies[] = xautoload
+dependencies[] = xautoload (>= 7.x-5.x)
 
 version = "7.x-1.0"
 project = "markdown_extra"
